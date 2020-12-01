@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import AthenticateUserService from '../services/AuthenticateUserService';
+import AthenticateUserService from '@modules/users/services/AuthenticateUserService';
 
 interface User {
   id: string;
