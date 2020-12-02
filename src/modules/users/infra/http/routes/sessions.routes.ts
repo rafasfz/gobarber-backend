@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
 import AthenticateUserService from '@modules/users/services/AuthenticateUserService';
+import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
-interface User {
+interface IUser {
   id: string;
   name: string;
   email: string;
@@ -11,8 +12,8 @@ interface User {
   updated_at: Date;
 }
 
-interface AutheticateResponse {
-  user: User;
+interface IAutheticateResponse {
+  user: IUser;
   token: string;
 }
 
@@ -21,9 +22,10 @@ const sessionsRouter = Router();
 sessionsRouter.post('/', async (request, response) => {
   const { email, password } = request.body;
 
-  const autheticateUser = new AthenticateUserService();
+  const usersRepository = new UsersRepository();
+  const autheticateUser = new AthenticateUserService(usersRepository);
 
-  const { user, token }: AutheticateResponse = await autheticateUser.execute({
+  const { user, token }: IAutheticateResponse = await autheticateUser.execute({
     email,
     password,
   });
