@@ -29,39 +29,39 @@ class AppointmentsRepository implements IAppointmentsRepository {
   }: IfindAllInMonthFromProviderDTO): Promise<Appointment[]> {
     const parsedMonth = String(month).padStart(2, '0');
 
-    const findAppointements = await this.ormRepository.find({
+    const appointments = await this.ormRepository.find({
       where: {
         provider_id,
         date: Raw(
           dateFieldName =>
-            `to_char(${dateFieldName}, 'MM-YYYY) = '${parsedMonth}-${year}'`,
+            `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
         ),
       },
     });
 
-    return findAppointements;
+    return appointments;
   }
 
   public async findAllInDayFromProvider({
     provider_id,
     month,
-    year,
     day,
+    year,
   }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
-    const parsedMonth = String(month).padStart(2, '0');
     const parsedDay = String(day).padStart(2, '0');
+    const parsedMonth = String(month).padStart(2, '0');
 
-    const findAppointements = await this.ormRepository.find({
+    const appointments = await this.ormRepository.find({
       where: {
         provider_id,
         date: Raw(
           dateFieldName =>
-            `to_char(${dateFieldName}, 'DD-MM-YYYY) = '${parsedDay}-${parsedMonth}-${year}'`,
+            `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
     });
 
-    return findAppointements;
+    return appointments;
   }
 
   public async create({
