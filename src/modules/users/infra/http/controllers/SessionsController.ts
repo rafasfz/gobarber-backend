@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import AthenticateUserService from '@modules/users/services/AuthenticateUserService';
 
@@ -30,8 +31,6 @@ export default class SessionsController {
       },
     );
 
-    delete user.password;
-
-    return response.json({ user, token });
+    return response.json({ user: classToClass(user), token });
   }
 }
