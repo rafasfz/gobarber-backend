@@ -36,9 +36,6 @@ class ListProviderAppointmentsService {
       },
     );
 
-    const cacheData = await this.cacheProvider.recover('as');
-    console.log(cacheData);
-
     return appointmets;
   }
 }
